@@ -12,7 +12,6 @@ interface BoardListProps {
 export const BoardList = ({ orgId, query }: BoardListProps) => {
 	// TODO: change to API call
 	const data = [];
-	console.log(query);
 	if (!data?.length && query.search) {
 		return (
 			<EmptyComponent
