@@ -1,14 +1,13 @@
 'use client';
-import React from 'react';
+import { OrganizationSwitcher } from '@clerk/nextjs';
+import { Heart, LayoutDashboard } from 'lucide-react';
+import { Poppins } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Poppins } from 'next/font/google';
 import { useSearchParams } from 'next/navigation';
-import { LayoutDashboard, Star } from 'lucide-react';
-import { OrganizationSwitcher } from '@clerk/nextjs';
 
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 const font = Poppins({
 	subsets: ['latin'],
@@ -81,7 +80,7 @@ export const OrgSidebar = () => {
 							query: { favorites: true },
 						}}
 					>
-						<Star className="h-4 w-4 mr-2" />
+						<Heart className="h-4 w-4 mr-2" />
 						Favorite boards
 					</Link>
 				</Button>
