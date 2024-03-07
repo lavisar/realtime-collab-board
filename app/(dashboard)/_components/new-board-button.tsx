@@ -1,7 +1,6 @@
 import { api } from '@/convex/_generated/api';
 import { useApiMutation } from '@/hooks/use-api-mutation';
 import { cn } from '@/lib/utils';
-import { useMutation } from 'convex/react';
 import { PlusCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -22,11 +21,11 @@ const NewBoardButton = ({ orgId, disabled }: NewBoardButtonProps) => {
 	};
 	return (
 		<button
-			disabled={pending}
+			disabled={pending || disabled}
 			onClick={handleOnClick}
 			className={cn(
 				'col-span-1 aspect-[100/127] bg-black opacity-25 rounded-lg hover:opacity-40 flex flex-col items-center justify-center py-6',
-				(pending || disabled) && 'opacity-75'
+				(pending || disabled) && 'opacity-25 hover:opacity-25 cursor-not-allowed'
 			)}
 		>
 			<div />
