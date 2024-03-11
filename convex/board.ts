@@ -14,7 +14,7 @@ const images = [
 	'/placeholders/9.svg',
 	'/placeholders/10.svg',
 ];
-
+//! CRUD
 export const create = mutation({
 	args: {
 		orgId: v.string(),
@@ -38,7 +38,6 @@ export const create = mutation({
 		return board;
 	},
 });
-
 export const remove = mutation({
 	args: { id: v.id('boards') },
 	handler: async (ctx, args) => {
@@ -47,11 +46,20 @@ export const remove = mutation({
 		if (!identity) {
 			throw new Error('Unauthorized');
 		}
-		// TODO: later check delete favorite relationship
+
+		const userId = identity.subject;
+		const existingFavorites = await ctx.db
+			.query('userFavorites')
+			.withIndex('by_user_board', (q) =>
+				q.eq('userId', userId).eq('boardId', args.id)
+			)
+			.unique();
+		if (existingFavorites) {
+			await ctx.db.delete(existingFavorites._id);
+		}
 		await ctx.db.delete(args.id);
 	},
 });
-
 export const update = mutation({
 	args: { id: v.id('boards'), title: v.string() },
 	handler: async (ctx, args) => {
@@ -73,6 +81,7 @@ export const update = mutation({
 	},
 });
 
+//! Favorite/ Unfavorite
 export const favorite = mutation({
 	args: { id: v.id('boards'), orgId: v.string() },
 	handler: async (ctx, args) => {
@@ -90,11 +99,8 @@ export const favorite = mutation({
 
 		const existingFavorites = await ctx.db
 			.query('userFavorites')
-			.withIndex('by_user_board_org', (q) =>
-				q
-					.eq('userId', userId)
-					.eq('boardId', board._id)
-					.eq('orgId', args.orgId)
+			.withIndex('by_user_board', (q) =>
+				q.eq('userId', userId).eq('boardId', board._id)
 			)
 			.unique();
 
@@ -129,7 +135,6 @@ export const unfavorite = mutation({
 			.query('userFavorites')
 			.withIndex('by_user_board', (q) =>
 				q.eq('userId', userId).eq('boardId', board._id)
-				//TODO: Check if orgId needed
 			)
 			.unique();
 
