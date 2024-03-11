@@ -16,8 +16,7 @@ interface BoardListProps {
 }
 
 export const BoardList = ({ orgId, query }: BoardListProps) => {
-	const data = useQuery(api.boards.get, { orgId });
-
+	const data = useQuery(api.boards.get, { orgId, search: query.search });
 	//? convex return null when data is empty, return undefined when in loading state
 	if (data === undefined) {
 		return (
@@ -35,7 +34,6 @@ export const BoardList = ({ orgId, query }: BoardListProps) => {
 			</div>
 		);
 	}
-
 	if (!data?.length && query.search) {
 		return (
 			<EmptyComponent
@@ -57,7 +55,9 @@ export const BoardList = ({ orgId, query }: BoardListProps) => {
 	if (!data?.length) {
 		return <EmptyBoard />;
 	}
-
+	const finalData = query.favorites
+		? data.filter((item) => item.isFavorite === true)
+		: data;
 	return (
 		<div>
 			<h2 className="text-3xl">
@@ -65,7 +65,7 @@ export const BoardList = ({ orgId, query }: BoardListProps) => {
 			</h2>
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5 mt-8 pb-10">
 				<NewBoardButton orgId={orgId} />
-				{data?.map((board) => (
+				{finalData.map((board) => (
 					<BoardCard
 						key={board._id}
 						id={board._id}
