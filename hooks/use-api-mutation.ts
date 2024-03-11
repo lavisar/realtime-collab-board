@@ -6,7 +6,9 @@ import { FunctionReference } from 'convex/server';
  * @description A hook to use a mutation from the API
  * @params convex's mutation
  */
-export const useApiMutation = (mutationFunction: FunctionReference<"mutation">) => {
+export const useApiMutation = (
+	mutationFunction: FunctionReference<'mutation'>
+) => {
 	const [pending, setPending] = useState(false);
 	const apiMution = useMutation(mutationFunction);
 
