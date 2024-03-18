@@ -1,6 +1,6 @@
 import { v } from 'convex/values';
 
-import { mutation } from './_generated/server';
+import { mutation, query } from './_generated/server';
 
 const images = [
 	'/placeholders/1.svg',
@@ -142,6 +142,16 @@ export const unfavorite = mutation({
 			throw new Error('Favorited board not found');
 		}
 		await ctx.db.delete(existingFavorites._id);
+
+		return board;
+	},
+});
+
+//! Board Auth  :::Live_block:::
+export const get = query({
+	args: { id: v.id('boards') },
+	handler: async (ctx, args) => {
+		const board = ctx.db.get(args.id);
 
 		return board;
 	},
