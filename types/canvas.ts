@@ -75,7 +75,7 @@ export type Point = {
 
 export type XYHW = {
 	x: number;
-	h: number;
+	y: number;
 	width: number;
 	height: number;
 };
