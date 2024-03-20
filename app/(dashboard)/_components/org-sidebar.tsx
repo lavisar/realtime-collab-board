@@ -25,7 +25,7 @@ export const OrgSidebar = () => {
 					<span
 						className={cn('font-semibold text-3xl', font.className)}
 					>
-						Let's Draw!
+						Let&apos;s Draw!
 					</span>
 				</div>
 			</Link>
