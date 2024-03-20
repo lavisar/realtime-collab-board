@@ -29,13 +29,10 @@ import {
 import { nanoid } from 'nanoid';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Hint } from '@/components/hint';
-import { Button } from '@/components/ui/button';
+import { BugReportButton } from '@/components/bug-report-button';
 import { useDeleteLayers } from '@/hooks/use-delete-layer';
 import { useDisableScrollBouce } from '@/hooks/use-disable-scroll-bounce';
 import { LiveObject } from '@liveblocks/client';
-import { Bug } from 'lucide-react';
-import Link from 'next/link';
 import { CursorsPresence } from './cursors-presence';
 import { Info } from './info';
 import { LayerPreview } from './layer-preview';
@@ -426,21 +423,7 @@ export const Canvas = ({ boardId }: CanvasProps) => {
 
 	return (
 		<main className="h-full w-full relative bg-neutral-100 touch-none">
-			<Hint label="Report a bug" side="top">
-				<Button
-					asChild
-					className="px-2 absolute bottom-10 right-8 rounded-full bg-blue-500/20 text-blue-800 shadow-md border hover:border-blue-500"
-					variant="board"
-					size="icon"
-				>
-					<Link
-						href="mailto:lavisar.dev@gmail.com?subject=DRAW-TOGETHER%20REPORT%20BUG"
-						target="_blank"
-					>
-						<Bug />
-					</Link>
-				</Button>
-			</Hint>
+			<BugReportButton />
 			<Info boardId={boardId} />
 			<Participants />
 			<Toolbar
