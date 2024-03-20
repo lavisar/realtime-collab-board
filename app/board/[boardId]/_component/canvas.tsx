@@ -1,6 +1,12 @@
 'use client';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { nanoid } from 'nanoid';
+import {
+	colorToCss,
+	connectionIdToColor,
+	findIntersectingLayersWithRectangle,
+	penPointsToPathLayer,
+	pointerEventToCanvasPoint,
+	resizeBounds,
+} from '@/lib/utils';
 import {
 	useCanRedo,
 	useCanUndo,
@@ -20,26 +26,24 @@ import {
 	Side,
 	XYHW,
 } from '@/types/canvas';
-import {
-	colorToCss,
-	connectionIdToColor,
-	findIntersectingLayersWithRectangle,
-	penPointsToPathLayer,
-	pointerEventToCanvasPoint,
-	resizeBounds,
-} from '@/lib/utils';
+import { nanoid } from 'nanoid';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { Hint } from '@/components/hint';
+import { Button } from '@/components/ui/button';
+import { useDeleteLayers } from '@/hooks/use-delete-layer';
+import { useDisableScrollBouce } from '@/hooks/use-disable-scroll-bounce';
+import { LiveObject } from '@liveblocks/client';
+import { Bug } from 'lucide-react';
+import Link from 'next/link';
 import { CursorsPresence } from './cursors-presence';
 import { Info } from './info';
-import { Participants } from './participants';
-import { Toolbar } from './toolbar';
-import { LiveObject } from '@liveblocks/client';
 import { LayerPreview } from './layer-preview';
+import { Participants } from './participants';
+import { Path } from './path';
 import { SelectionBox } from './selection-box';
 import { SelectionTools } from './selection-tools';
-import { Path } from './path';
-import { useDisableScrollBouce } from '@/hooks/use-disable-scroll-bounce';
-import { useDeleteLayers } from '@/hooks/use-delete-layer';
+import { Toolbar } from './toolbar';
 
 const MAX_LAYERS = 100;
 
@@ -422,6 +426,21 @@ export const Canvas = ({ boardId }: CanvasProps) => {
 
 	return (
 		<main className="h-full w-full relative bg-neutral-100 touch-none">
+			<Hint label="Report a bug" side="top">
+				<Button
+					asChild
+					className="px-2 absolute bottom-10 right-8 rounded-full bg-blue-500/20 text-blue-800 shadow-md border hover:border-blue-500"
+					variant="board"
+					size="icon"
+				>
+					<Link
+						href="mailto:lavisar.dev@gmail.com?subject=DRAW-TOGETHER%20REPORT%20BUG"
+						target="_blank"
+					>
+						<Bug />
+					</Link>
+				</Button>
+			</Hint>
 			<Info boardId={boardId} />
 			<Participants />
 			<Toolbar
