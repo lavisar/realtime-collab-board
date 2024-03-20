@@ -1,18 +1,17 @@
 'use client';
-import Link from 'next/link';
-import Image from 'next/image';
+import { Bug, Menu } from 'lucide-react';
 import { Poppins } from 'next/font/google';
-import { Menu } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
-import { cn } from '@/lib/utils';
-import { useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { useRenameModal } from '@/store/use-rename-modal';
+import { useQuery } from 'convex/react';
 
-import { Button } from '@/components/ui/button';
-import { Hint } from '@/components/hint';
 import { Action } from '@/components/action';
+import { Hint } from '@/components/hint';
+import { Button } from '@/components/ui/button';
 
 interface InfoProps {
 	boardId: string;
@@ -44,14 +43,6 @@ export const Info = ({ boardId }: InfoProps) => {
 							height={40}
 							width={40}
 						/>
-						<span
-							className={cn(
-								'font-semibold text-xl ml-2 text-black',
-								font.className
-							)}
-						>
-							Board
-						</span>
 					</Link>
 				</Button>
 			</Hint>

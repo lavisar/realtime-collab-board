@@ -1,6 +1,12 @@
 'use client';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { nanoid } from 'nanoid';
+import {
+	colorToCss,
+	connectionIdToColor,
+	findIntersectingLayersWithRectangle,
+	penPointsToPathLayer,
+	pointerEventToCanvasPoint,
+	resizeBounds,
+} from '@/lib/utils';
 import {
 	useCanRedo,
 	useCanUndo,
@@ -20,26 +26,21 @@ import {
 	Side,
 	XYHW,
 } from '@/types/canvas';
-import {
-	colorToCss,
-	connectionIdToColor,
-	findIntersectingLayersWithRectangle,
-	penPointsToPathLayer,
-	pointerEventToCanvasPoint,
-	resizeBounds,
-} from '@/lib/utils';
+import { nanoid } from 'nanoid';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { BugReportButton } from '@/components/bug-report-button';
+import { useDeleteLayers } from '@/hooks/use-delete-layer';
+import { useDisableScrollBouce } from '@/hooks/use-disable-scroll-bounce';
+import { LiveObject } from '@liveblocks/client';
 import { CursorsPresence } from './cursors-presence';
 import { Info } from './info';
-import { Participants } from './participants';
-import { Toolbar } from './toolbar';
-import { LiveObject } from '@liveblocks/client';
 import { LayerPreview } from './layer-preview';
+import { Participants } from './participants';
+import { Path } from './path';
 import { SelectionBox } from './selection-box';
 import { SelectionTools } from './selection-tools';
-import { Path } from './path';
-import { useDisableScrollBouce } from '@/hooks/use-disable-scroll-bounce';
-import { useDeleteLayers } from '@/hooks/use-delete-layer';
+import { Toolbar } from './toolbar';
 
 const MAX_LAYERS = 100;
 
@@ -422,6 +423,7 @@ export const Canvas = ({ boardId }: CanvasProps) => {
 
 	return (
 		<main className="h-full w-full relative bg-neutral-100 touch-none">
+			<BugReportButton />
 			<Info boardId={boardId} />
 			<Participants />
 			<Toolbar
